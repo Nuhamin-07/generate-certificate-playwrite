@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Certificate of Completion - {{certificate_id}}</title>
+    <style>
+      @page {
+        size: 297mm 210mm;
+        margin: 0;
+      }
+      :root {
+        --deep: #0a3d47;
+        --teal: #0f766e;
+        --mint: #5eead4;
+        --amber: #f2a93b;
+        --ink: #0f172a;
+        --muted: #5b6776;
+        --line: #dfe6e8;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 297mm;
+        height: 210mm;
+        background: #fcfcfb;
+      }
+      body {
+        font-family: "Poppins", "FreeSerif", sans-serif;
+        color: var(--ink);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .page {
+        position: relative;
+        width: 297mm;
+        height: 210mm;
+        overflow: hidden;
+        background: #fcfcfb;
+      }
+
+      .corner-art {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 120mm;
+        height: 78mm;
+      }
+
+      /* ---- header: logo left, verification right ---- */
+      .header {
+        position: absolute;
+        left: 20mm;
+        right: 20mm;
+        top: 13mm;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 3mm;
+        margin-top: 2mm;
+      }
+      .logo svg {
+        width: 11mm;
+        height: 11mm;
+        flex: none;
+      }
+      .logo .word {
+        font-weight: 600;
+        font-size: 15pt;
+        color: var(--deep);
+        line-height: 1;
+      }
+      .logo .word span {
+        font-weight: 300;
+        color: var(--teal);
+      }
+      .cobrand {
+        display: flex;
+        align-items: center;
+        gap: 3.5mm;
+        margin: 2mm 0 0 5mm;
+        padding-left: 5mm;
+        border-left: 0.3mm solid var(--line);
+        font-size: 6.4pt;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .cobrand b {
+        display: block;
+        font-weight: 600;
+        font-size: 9.5pt;
+        letter-spacing: 0.01em;
+        text-transform: none;
+        color: var(--deep);
+      }
+      .extra-line {
+        margin-top: 4.5mm;
+        font-size: 8pt;
+        color: var(--muted);
+        letter-spacing: 0.02em;
+        max-width: 220mm;
+      }
+      .extra-line b {
+        font-weight: 500;
+        color: var(--deep);
+      }
+      .verify {
+        display: flex;
+        align-items: center;
+        gap: 3.5mm;
+        text-align: right;
+        font-size: 6.8pt;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .verify b {
+        font-weight: 600;
+        color: var(--deep);
+        letter-spacing: 0.04em;
+        font-size: 7.6pt;
+      }
+      .verify .qr {
+        width: 21mm;
+        height: 21mm;
+        background: #fff;
+        padding: 1.6mm;
+        border-radius: 2.4mm;
+        box-shadow: 0 0 0 0.3mm var(--line);
+      }
+      .verify .qr svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      /* ---- main text ---- */
+      .main {
+        position: absolute;
+        left: 22mm;
+        right: 22mm;
+        top: 39mm;
+        height: 106mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 4mm;
+        font-weight: 600;
+        font-size: 8.2pt;
+        letter-spacing: 0.3em;
+        color: var(--teal);
+        text-transform: uppercase;
+        padding-left: 0.3em;
+      }
+      .eyebrow i {
+        display: block;
+        width: 16mm;
+        height: 0.3mm;
+        background: var(--teal);
+        opacity: 0.55;
+      }
+      .lead {
+        margin-top: 6mm;
+        font-weight: 400;
+        font-size: 10.5pt;
+        color: var(--muted);
+      }
+      .name {
+        font-family: "Lora", "FreeSerif", serif;
+        font-weight: 500;
+        color: var(--deep);
+        line-height: 1.12;
+        margin-top: 3mm;
+        max-width: 236mm;
+        text-wrap: balance;
+        overflow-wrap: anywhere;
+      }
+      .name.n1 {
+        font-size: 44pt;
+      }
+      .name.n2 {
+        font-size: 36pt;
+      }
+      .name.n3 {
+        font-size: 30pt;
+      }
+      .name.n4 {
+        font-size: 24pt;
+      }
+      .name.n5 {
+        font-size: 20pt;
+      }
+      .name-rule {
+        width: 22mm;
+        height: 0.9mm;
+        border-radius: 1mm;
+        background: var(--amber);
+        margin-top: 4mm;
+      }
+      .lead2 {
+        margin-top: 5mm;
+        font-weight: 400;
+        font-size: 10.5pt;
+        color: var(--muted);
+      }
+      .course {
+        font-weight: 500;
+        line-height: 1.26;
+        margin-top: 2mm;
+        max-width: 205mm;
+        text-wrap: balance;
+        overflow-wrap: anywhere;
+      }
+      .course.c1 {
+        font-size: 18pt;
+      }
+      .course.c2 {
+        font-size: 15pt;
+      }
+      .course.c3 {
+        font-size: 12.5pt;
+      }
+      .stats {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: 4mm;
+        margin-top: 7mm;
+      }
+      .stat {
+        padding: 0 7.5mm;
+        border-left: 0.3mm solid var(--line);
+        white-space: nowrap;
+        text-align: center;
+      }
+      .stat:first-child {
+        border-left: none;
+      }
+      .stat .k {
+        font-size: 6.3pt;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .stat .v {
+        margin-top: 1.2mm;
+        font-weight: 500;
+        font-size: 10.5pt;
+        color: var(--ink);
+      }
+
+      /* ---- wave footer ---- */
+      .wave {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 297mm;
+        height: 64mm;
+      }
+      .sig {
+        position: absolute;
+        bottom: 11mm;
+        width: 58mm;
+        text-align: center;
+        color: #fff;
+      }
+      .sig.left {
+        left: 30mm;
+      }
+      .sig.right {
+        right: 30mm;
+      }
+      .sig .scribble {
+        font-family: "Lora", "FreeSerif", serif;
+        font-style: italic;
+        font-size: 16pt;
+        height: 8.5mm;
+        line-height: 8.5mm;
+      }
+      .sig .line {
+        height: 0.3mm;
+        background: rgba(255, 255, 255, 0.6);
+      }
+      .sig .who {
+        margin-top: 1.6mm;
+        font-weight: 500;
+        font-size: 8.4pt;
+      }
+      .sig .role {
+        font-weight: 300;
+        font-size: 7.4pt;
+        color: #b9ece6;
+        margin-top: 0.3mm;
+      }
+      .seal {
+        position: absolute;
+        left: 133.5mm;
+        top: 141mm;
+        width: 30mm;
+        height: 39mm;
+        filter: drop-shadow(0 1.2mm 1.8mm rgba(5, 30, 36, 0.35));
+      }
+      .sample-note {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 3.6mm;
+        text-align: center;
+        font-size: 6.3pt;
+        letter-spacing: 0.1em;
+        color: rgba(255, 255, 255, 0.55);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <svg
+        class="corner-art"
+        viewBox="0 0 120 78"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g
+          fill="none"
+          stroke="#0f766e"
+          stroke-opacity="0.11"
+          stroke-width="0.35"
+        >
+          <circle cx="122" cy="-4" r="22" />
+          <circle cx="122" cy="-4" r="36" />
+          <circle cx="122" cy="-4" r="50" />
+          <circle cx="122" cy="-4" r="64" />
+          <circle cx="122" cy="-4" r="78" />
+        </g>
+        <circle cx="96" cy="46" r="1.1" fill="#f2a93b" fill-opacity="0.9" />
+        <circle cx="62" cy="12" r="0.8" fill="#0f766e" fill-opacity="0.5" />
+      </svg>
+
+      <div class="header">
+        <div style="display: flex; align-items: flex-start">
+          <div class="logo">
+            <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+              <circle
+                cx="22"
+                cy="22"
+                r="16"
+                fill="none"
+                stroke="#0a3d47"
+                stroke-width="3"
+              />
+              <path
+                d="M22 6 A16 16 0 0 1 38 22"
+                fill="none"
+                stroke="#f2a93b"
+                stroke-width="3.8"
+                stroke-linecap="round"
+              />
+              <circle cx="22" cy="22" r="5" fill="#0f766e" />
+            </svg>
+            <div class="word">EduMarket<span>360</span></div>
+          </div>
+          {{cobrand_html}}
+        </div>
+        <div class="verify">
+          <div>
+            Certificate ID<br /><b>{{certificate_id}}</b><br />Verify at
+            {{verify_host}}
+          </div>
+          <div class="qr">{{qr_svg}}</div>
+        </div>
+      </div>
+
+      <div class="main">
+        <div class="eyebrow"><i></i>{{certificate_kind}}<i></i></div>
+        <div class="lead">This certificate is proudly presented to</div>
+        <div class="name {{name_class}}">{{learner_name}}</div>
+        <div class="name-rule"></div>
+        <div class="lead2">for successfully completing</div>
+        <div class="course {{course_class}}">{{course_title}}</div>
+        <div class="stats">{{stats_html}}</div>
+        {{extra_line_html}}
+      </div>
+
+      <svg
+        class="wave"
+        viewBox="0 0 297 64"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="w3" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#0a3d47" />
+            <stop offset="0.6" stop-color="#0d5a60" />
+            <stop offset="1" stop-color="#0f766e" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0 8 C60 -4 120 20 190 8 S270 -2 297 6 V64 H0Z"
+          fill="#5eead4"
+          fill-opacity="0.35"
+        />
+        <path
+          d="M0 16 C70 4 130 28 200 16 S275 8 297 14 V64 H0Z"
+          fill="#14b8a6"
+          fill-opacity="0.55"
+        />
+        <path
+          d="M0 24 C80 12 140 34 210 22 S280 16 297 22 V64 H0Z"
+          fill="url(#w3)"
+        />
+      </svg>
+
+      <div class="sig left">
+        <div class="scribble">{{signer1_scribble}}</div>
+        <div class="line"></div>
+        <div class="who">{{signer1_name}}</div>
+        <div class="role">{{signer1_role}}</div>
+      </div>
+      <div class="sig right">
+        <div class="scribble">{{signer2_scribble}}</div>
+        <div class="line"></div>
+        <div class="who">{{signer2_name}}</div>
+        <div class="role">{{signer2_role}}</div>
+      </div>
+
+      <svg
+        class="seal"
+        viewBox="0 0 100 130"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffd27a" />
+            <stop offset="0.55" stop-color="#f2a93b" />
+            <stop offset="1" stop-color="#d98618" />
+          </linearGradient>
+        </defs>
+        <polygon points="27,70 50,70 50,124 38.5,112 27,124" fill="#d98618" />
+        <polygon points="50,70 73,70 73,124 61.5,112 50,124" fill="#f2a93b" />
+        <circle cx="50" cy="44" r="40" fill="url(#sg)" />
+        <circle
+          cx="50"
+          cy="44"
+          r="33"
+          fill="none"
+          stroke="#fffaf0"
+          stroke-width="1.6"
+        />
+        <circle
+          cx="50"
+          cy="44"
+          r="29.5"
+          fill="none"
+          stroke="#fffaf0"
+          stroke-opacity="0.55"
+          stroke-width="0.6"
+        />
+        <path
+          d="M34 45 L45 56 L67 31"
+          fill="none"
+          stroke="#fffaf0"
+          stroke-width="6.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+
+      <div class="sample-note">{{sample_note}}</div>
+    </div>
+  </body>
+</html>
