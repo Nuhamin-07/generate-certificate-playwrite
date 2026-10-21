@@ -1,0 +1,71 @@
+<section id="certificate">
+  <div class="page">
+    <canvas class="corner-art"></canvas>
+
+    <div class="header">
+      <div style="display: flex; align-items: flex-start">
+        <div class="logo">
+          <svg viewBox="0 0 44 44" width="41.6" height="41.6" xmlns="http://www.w3.org/2000/svg">
+            <circle
+              cx="22"
+              cy="22"
+              r="16"
+              fill="none"
+              stroke="#0a3d47"
+              stroke-width="3"
+            />
+            <path
+              d="M22 6 A16 16 0 0 1 38 22"
+              fill="none"
+              stroke="#f2a93b"
+              stroke-width="3.8"
+              stroke-linecap="round"
+            />
+            <circle cx="22" cy="22" r="5" fill="#0f766e" />
+          </svg>
+          <div class="word">EduMarket<span>360</span></div>
+        </div>
+        {{cobrand_html}}
+      </div>
+      <div class="verify">
+        <div>
+          Certificate ID<br /><b>{{certificate_id}}</b><br />Verify at
+          {{verify_host}}
+        </div>
+        <div id="certificate-qr" class="qr"></div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="eyebrow"><i></i>{{certificate_kind}}<i></i></div>
+      <div class="lead">This certificate is proudly presented to</div>
+      <div class="name {{name_class}}">{{learner_name}}</div>
+      <div class="name-rule"></div>
+      <div class="lead2">for successfully completing</div>
+      <div class="course {{course_class}}">{{course_title}}</div>
+      <div class="stats">{{stats_html}}</div>
+      {{extra_line_html}}
+    </div>
+
+    <canvas class="wave"></canvas>
+
+    <div class="sig left">
+      <div class="scribble">{{signer1_scribble}}</div>
+      <div class="line"></div>
+      <div class="who">{{signer1_name}}</div>
+      <div class="role">{{signer1_role}}</div>
+    </div>
+    <div class="sig right">
+      <div class="scribble">{{signer2_scribble}}</div>
+      <div class="line"></div>
+      <div class="who">{{signer2_name}}</div>
+      <div class="role">{{signer2_role}}</div>
+    </div>
+
+    <canvas class="seal"></canvas>
+
+    <div class="sample-note">{{sample_note}}</div>
+  </div>
+</section>
+
+<button id="download-certificate" type="button">Download PDF</button>
