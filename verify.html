@@ -1,0 +1,114 @@
+{% assign certificateId = request.params['id'] | strip | downcase %} {% assign
+idWithoutDashes = certificateId | remove: '-' %} {% assign invalidGuidChars =
+idWithoutDashes | remove: '0' | remove: '1' | remove: '2' | remove: '3' |
+remove: '4' | remove: '5' | remove: '6' | remove: '7' | remove: '8' | remove:
+'9' | remove: 'a' | remove: 'b' | remove: 'c' | remove: 'd' | remove: 'e' |
+remove: 'f' %} {% assign hyphen1 = certificateId | slice: 8, 1 %} {% assign
+hyphen2 = certificateId | slice: 13, 1 %} {% assign hyphen3 = certificateId |
+slice: 18, 1 %} {% assign hyphen4 = certificateId | slice: 23, 1 %} {% assign
+isValidGuid = false %} {% if certificateId.size == 36 and idWithoutDashes.size
+== 32 and invalidGuidChars == blank and hyphen1 == '-' and hyphen2 == '-' and
+hyphen3 == '-' and hyphen4 == '-' %} {% assign isValidGuid = true %} {% endif %}
+{% assign certificate = null %} {% if isValidGuid %} {% fetchxml
+certificateQuery %}
+<fetch top="1" mapping="logical">
+  <entity name="et360_certificate">
+    <attribute name="et360_learner" />
+    <attribute name="et360_course" />
+    <attribute name="et360_issuedate" />
+    <attribute name="et360_status" />
+    <attribute name="et360_credentialtype" />
+    <attribute name="et360_waysofworkingpdus" />
+    <attribute name="et360_ceusawarded" />
+    <filter>
+      <condition
+        attribute="et360_certificateid"
+        operator="eq"
+        value="{{ certificateId | escape }}"
+      />
+    </filter>
+  </entity>
+</fetch>
+{% endfetchxml %} {% assign certificate = certificateQuery.results.entities[0]
+%} {% endif %}
+
+<div class="verify-page">
+  <div class="verify-card">
+    <header class="verify-header">
+      <p class="verify-eyebrow">EduMarket360</p>
+      <h1>Certificate Verification</h1>
+      <p>Enter the certificate code or scan its QR code to verify it.</p>
+    </header>
+
+    <form class="verify-form" action="/verify/" method="get">
+      <label for="certificate-code">Certificate code</label>
+      <div class="verify-form-row">
+        <input
+          id="certificate-code"
+          name="id"
+          type="text"
+          value="{{ certificateId | escape }}"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="Paste the certificate GUID"
+        />
+        <button type="submit">Verify</button>
+      </div>
+    </form>
+
+    {% if certificate %} {% assign rawStatus = certificate.et360_status.Label |
+    downcase %} {% assign publicStatus = "Revoked" %} {% if rawStatus ==
+    "issued" %} {% assign publicStatus = "Valid" %} {% endif %}
+
+    <section class="certificate-result" aria-live="polite">
+      <div class="status-row">
+        <h2>Certificate found</h2>
+        <span
+          class="status-badge {% if publicStatus == 'Valid' %}status-valid{% else %}status-revoked{% endif %}"
+        >
+          {{ publicStatus }}
+        </span>
+      </div>
+
+      <dl class="certificate-details">
+        <div>
+          <dt>Learner</dt>
+          <dd>{{ certificate.et360_learner.name | escape }}</dd>
+        </div>
+        <div>
+          <dt>Course</dt>
+          <dd>{{ certificate.et360_course.name | escape }}</dd>
+        </div>
+        <div>
+          <dt>Issue date</dt>
+          <dd>{{ certificate.et360_issuedate | date: "MMMM d, yyyy" }}</dd>
+        </div>
+        <div>
+          <dt>Credential type</dt>
+          <dd>{{ certificate.et360_credentialtype.Label | escape }}</dd>
+        </div>
+
+        {% if certificate.et360_waysofworkingpdus != blank %}
+        <div>
+          <dt>PDU amount</dt>
+          <dd>{{ certificate.et360_waysofworkingpdus }}</dd>
+        </div>
+        {% endif %} {% if certificate.et360_ceusawarded != blank %}
+        <div>
+          <dt>CEU amount</dt>
+          <dd>{{ certificate.et360_ceusawarded }}</dd>
+        </div>
+        {% endif %}
+      </dl>
+    </section>
+
+    {% elsif certificateId != blank %}
+    <section class="certificate-result not-found" aria-live="polite">
+      <h2>No certificate found for this code.</h2>
+    </section>
+
+    {% else %}
+    <p class="verify-hint">The verification result will appear here.</p>
+    {% endif %}
+  </div>
+</div>
